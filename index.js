@@ -1,34 +1,65 @@
-const fs = require('fs');                   // Loads the Filesystem library
-const Discord = require('discord.js');      // Loads the discord API library
-const Config = require('./config.json');    // Loads the configuration values
-const BotLib = require('./lib/bot.js');
-
-// Loads our dispatcher classes that figure out what handlers to use in response to events
-const Commands = require('./dispatchers/commandDispatch');
+const fs = require('fs');                               // Loads the Filesystem library
+const Discord = require('discord.js');                  // Loads the discord API library
+const { prefix, token } = require('./config.json');     // Loads the "token" and "prefix" values from the config file
 
 const client = new Discord.Client(); // Initiates the client
-client.botConfig = Config; // Stores the config inside the client object so it's auto injected wherever we use the client
-client.botConfig.rootDir = __dirname; // Stores the running directory in the config so we don't have to traverse up directories.
+client.commands = new Discord.Collection(); // Creates an empty list in the client object to store all commands
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js')); // Loads the code for each command from the "commands" folder
 
-// Loads our handler functions that do all the work
-BotLib.loadHandlers(client, 'commands');
+// Loops over each file in the command folder and sets the commands to respond to their name
+for (const file of commandFiles) {
+    const command = require(`./commands/${file}`);
+    client.commands.set(command.name, command);
+}
 
 const cooldowns = new Discord.Collection(); // Creates an empty list for storing timeouts so people can't spam with commands
 
-// Starts the bot and makes it begin listening to events.
+// Starts the bot and makes it begin listening for commands.
 client.on('ready', () => {
     console.log('Bot Online');
 });
 
-// Handle user messages
+/**
+ * This function controls how the bot reacts to messages it receives
+ */
 client.on('message', message => {
-    // Check for structured commands
-    if(Commands.handle(client, message, cooldowns)) {
-        return; // If we handled a command, don't continue to handle events for the same message
+    // Ignore bot messages and messages that dont start with the prefix defined in the config file
+    if(!message.content.startsWith(prefix) || message.author.bot) return;
+
+    console.log('ignored or nah')
+
+    // Split commands and arguments from message so they can be passed to functions
+    const args = message.content.slice(prefix.length).split(/ +/);
+    const commandName = args.shift().toLowerCase();
+
+    // If the command isn't in the  command folder, move on
+    const command = client.commands.get(commandName)
+        || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+    
+    if(!command) return;
+
+    console.log('is command')
+        // If the command requires arguments, make sure they're there.
+        if (command.args && !args.length) {
+            let reply = 'That command requires more details!';
+
+            // If we have details on how to use the args, provide them
+            if (command.usage) {
+                reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
+            }
+
+            // Send a reply from the bot about any error encountered
+            return message.channel.send(reply);
+        }
+
+    try {
+        // Run the command
+        command.execute(message, args);
+    } catch(error) {
+        console.error(error);
+        message.reply('Sorry! I ran into an error trying to do that!');
     }
+
 });
 
-// Log the bot in using the token provided in the config file
-client.login(client.botConfig.token).catch((err) => {
-    console.log(`Failed to authenticate with Discord network: "${err.message}"`);
-});
+client.login(token); // Log the bot in using the token provided in the config file

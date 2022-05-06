@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/brycemck/tobias-funke-2.0#readme",
   "dependencies": {
-    "discord.js": "^13.6.0",
+    "discord.js": "^12.5.3",
     "fs": "^0.0.1-security"
   }
 }
