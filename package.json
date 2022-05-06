@@ -1,0 +1,23 @@
+{
+  "name": "tobias-funke-2.0",
+  "version": "2.0.0",
+  "description": "A new Tobias Funke bot.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brycemck/tobias-funke-2.0.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brycemck/tobias-funke-2.0/issues"
+  },
+  "homepage": "https://github.com/brycemck/tobias-funke-2.0#readme",
+  "dependencies": {
+    "discord.js": "^13.6.0",
+    "fs": "^0.0.1-security"
+  }
+}
