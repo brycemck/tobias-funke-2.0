@@ -16,7 +16,7 @@ const cooldowns = new Discord.Collection(); // Creates an empty list for storing
 
 // Starts the bot and makes it begin listening for commands.
 client.on('ready', () => {
-    console.log('Bot Online');
+    console.log('Tobias initiated');
 });
 
 /**
@@ -25,8 +25,6 @@ client.on('ready', () => {
 client.on('message', message => {
     // Ignore bot messages and messages that dont start with the prefix defined in the config file
     if(!message.content.startsWith(prefix) || message.author.bot) return;
-
-    console.log('ignored or nah')
 
     // Split commands and arguments from message so they can be passed to functions
     const args = message.content.slice(prefix.length).split(/ +/);
@@ -38,7 +36,6 @@ client.on('message', message => {
     
     if(!command) return;
 
-    console.log('is command')
         // If the command requires arguments, make sure they're there.
         if (command.args && !args.length) {
             let reply = 'That command requires more details!';
