@@ -6,6 +6,7 @@ let endpoint = "/advice";
 module.exports = {
     name: 'advice',
     aliases: ['givemeadvice'],
+    description: '',
     execute(message, args) {
         https.get(adviceUrl + endpoint, (resp) => {
             let data = '';
