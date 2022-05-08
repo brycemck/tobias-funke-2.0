@@ -10,7 +10,8 @@ let responses = [
 
 module.exports = {
     name: '8ball',
-    description: '',
+    description: 'Get a response to a question you have for Tobias\' 8 ball.',
+    usage: '[question]',
     execute(message, args) {
         return message.channel.send(responses[Math.floor(Math.random() * (responses.length))])
     }

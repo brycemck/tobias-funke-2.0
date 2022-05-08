@@ -38,7 +38,8 @@ let callWeather = (message, request) => {
 
 module.exports = {
     name: 'weather',
-    description: '',
+    description: 'Gets the weather for 5 default cities, or a specified location by providing a city, state/province or ZIP code.',
+    usage: '[location]',
     execute(message, args) {
         let query = "&q=";
         let request = '';
