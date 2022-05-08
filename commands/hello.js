@@ -25,6 +25,7 @@ let quotes = [
 module.exports = {
     name: 'hello',
     aliases: ['sup', 'wazzup'],
+    description: '',
     execute(message, args) {
         message.channel.send(quotes[Math.floor(Math.random() * (quotes.length))])
     }
