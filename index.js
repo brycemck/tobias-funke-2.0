@@ -4,7 +4,7 @@ const { prefix, token } = require('./config.json');     // Loads the "token" and
 
 const client = new Discord.Client(); // Initiates the client
 client.commands = new Discord.Collection(); // Creates an empty list in the client object to store all commands
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js')); // Loads the code for each command from the "commands" folder
+const commandFiles = fs.readdirSync(path.resolve(__dirname, './commands')).filter(file => file.endsWith('.js')); // Loads the code for each command from the "commands" folder
 
 // Loops over each file in the command folder and sets the commands to respond to their name
 for (const file of commandFiles) {
