@@ -3,8 +3,8 @@ const { prefix, discordAdminRole, mcServerIP, mcRconPort, mcRconPassword } = req
 
 module.exports = {
     name: 'mcutil',
-    description: 'Whitelist or give a player operator permissions. Only Tobias Admins can do this.',
-    usage: '[minecraft console command] (ex: mcutil whitelist add [username])',
+    description: 'Execute a Minecraft console command on the server. Only Tobias Admins can do this.',
+    usage: '[minecraft console command]\n(ex: mcutil whitelist add [username])',
     execute(message, args) {
         const data = [];
         // This command shouldn't be able to be executed by someone that doesn't have the specified admin role in the Discord server
