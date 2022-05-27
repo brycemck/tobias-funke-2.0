@@ -1,6 +1,7 @@
 const fs = require('fs');                               // Loads the Filesystem library
 const Discord = require('discord.js');                  // Loads the discord API library
 const { prefix, token } = require('./config.json');     // Loads the "token" and "prefix" values from the config file
+const path = require("path");
 
 const client = new Discord.Client(); // Initiates the client
 client.commands = new Discord.Collection(); // Creates an empty list in the client object to store all commands
