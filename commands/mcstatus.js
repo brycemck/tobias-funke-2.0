@@ -17,8 +17,6 @@ module.exports = {
                 data.push(`**Round Trip Latency:** ${result.roundTripLatency}`);
 
                 data.push(`\nFor connection information, use \`${prefix}mc\`.`)
-
-                console.log(result.players.sample);
                 message.channel.send(data, { split: true })
             })
             .catch((error) => {
