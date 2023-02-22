@@ -18,7 +18,7 @@ module.exports = {
             .then((result) => {
                 messageReply += `**Server:** ${mcServerHostname}`;
                 messageReply += `\n**Online Players:** ${result.players.online}`;
-                if (result.players.online > 0) messageReply += `(${result.players.sample.map(player => player.name).join(', ')})`
+                if (result.players.online > 0) messageReply += ` (${result.players.sample.map(player => player.name).join(', ')})`
                 messageReply += `\n**Server Version:** ${result.version.name}`;
                 messageReply += `\n**Round Trip Latency:** ${result.roundTripLatency}`;
 
