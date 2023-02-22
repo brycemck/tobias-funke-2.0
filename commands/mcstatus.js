@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const prefix = process.env.BOT_PREFIX;
 const mcServerIP = process.env.MC_SERVER_IP;
-const mcServerExternalIP = process.env.MC_SERVER_EXTERNAL_IP;
+const mcServerHostname = process.env.MC_SERVER_HOSTNAME;
 const mcQueryPort = process.env.MC_QUERY_PORT;
 
 module.exports = {
@@ -16,7 +16,7 @@ module.exports = {
 
         mcUtil.status(mcServerIP, parseInt(mcQueryPort))
             .then((result) => {
-                messageReply += `**Server:** ${mcServerExternalIP}`;
+                messageReply += `**Server:** ${mcServerHostname}`;
                 messageReply += `\n**Online Players:** ${result.players.online}`;
                 if (result.players.online > 0) messageReply += `(${result.players.sample.map(player => player.name).join(', ')})`
                 messageReply += `\n**Server Version:** ${result.version.name}`;
