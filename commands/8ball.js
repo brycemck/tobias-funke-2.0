@@ -13,6 +13,6 @@ module.exports = {
     description: 'Get a response to a question you have for Tobias\' 8 ball.',
     usage: '[question]',
     execute(message, args) {
-        return message.channel.send(responses[Math.floor(Math.random() * (responses.length))])
+        return message.reply(`${responses[Math.floor(Math.random() * (responses.length))]}`)
     }
 }

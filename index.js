@@ -1,11 +1,14 @@
-const fs = require('fs');                               // Loads the Filesystem library
-const Discord = require('discord.js');                  // Loads the discord API library
-const { prefix, token } = require('./config.json');     // Loads the "token" and "prefix" values from the config file
-const path = require("path");
+const fs = require('node:fs');
+const path = require('node:path');
+const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
+const dotenv = require('dotenv');
+dotenv.config();
 
-const client = new Discord.Client(); // Initiates the client
-client.commands = new Discord.Collection(); // Creates an empty list in the client object to store all commands
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] }); // Initiates the client
+client.commands = new Collection(); // Creates an empty list in the client object to store all commands
 const commandFiles = fs.readdirSync(path.resolve(__dirname, './commands')).filter(file => file.endsWith('.js')); // Loads the code for each command from the "commands" folder
+
+const prefix = process.env.BOT_PREFIX;
 
 // Loops over each file in the command folder and sets the commands to respond to their name
 for (const file of commandFiles) {
@@ -13,17 +16,17 @@ for (const file of commandFiles) {
     client.commands.set(command.name, command);
 }
 
-const cooldowns = new Discord.Collection(); // Creates an empty list for storing timeouts so people can't spam with commands
+// const cooldowns = new Discord.Collection(); // Creates an empty list for storing timeouts so people can't spam with commands
 
 // Starts the bot and makes it begin listening for commands.
-client.on('ready', () => {
-    console.log('Tobias initiated');
+client.once(Events.ClientReady, c => {
+	console.log(`Ready! Logged in as ${c.user.tag}`);
 });
 
 /**
  * This function controls how the bot reacts to messages it receives
  */
-client.on('message', message => {
+client.on('messageCreate', message => {
     // Ignore bot messages and messages that dont start with the prefix defined in the config file
     if(!message.content.startsWith(prefix) || message.author.bot) return;
 
@@ -60,4 +63,24 @@ client.on('message', message => {
 
 });
 
-client.login(token); // Log the bot in using the token provided in the config file
+// client.on(Events.MessageCreate, async interaction => {
+// 	// if (!interaction.isChatInputCommand()) return;
+
+//     console.log(interaction)
+
+// 	const command = interaction.client.commands.get(interaction.commandName);
+
+// 	if (!command) {
+// 		console.error(`No command matching ${interaction.commandName} was found.`);
+// 		return;
+// 	}
+
+// 	try {
+// 		await command.execute(interaction);
+// 	} catch (error) {
+// 		console.error(`Error executing ${interaction.commandName}`);
+// 		console.error(error);
+// 	}
+// });
+
+client.login(process.env.BOT_TOKEN);

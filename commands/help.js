@@ -1,4 +1,6 @@
-const { prefix } = require('../config.json');
+const dotenv = require('dotenv');
+dotenv.config();
+const prefix = process.env.BOT_PREFIX;
 
 module.exports = {
     name: 'help',
@@ -6,16 +8,17 @@ module.exports = {
     aliases: ['commands'],
     usage: '[command name]',
     execute(message, args) {
-        const data = [];
+        let replyMessage = '';
         const { commands } = message.client;
+        const commandsList = Array.from(commands.keys()).join(', ')
 
-        // Send help data about ALL commands
+        // Send help replyMessage about ALL commands
         if(!args.length) {
-            data.push('Here\'s a list of all my commands:');
-            data.push(commands.map(command => command.name).join(', '));
-            data.push(`\nYou can send \`${prefix}help [command name]\` to get info on a specific command!`);
+            replyMessage += 'Here\'s a list of all my commands: \n';
+            replyMessage += commandsList;
+            replyMessage += `\n\nYou can send \`${prefix}help [command name]\` to get info on a specific command!`;
 
-            // return message.author.send(data, { split: true })
+            // return message.author.send(replyMessage, { split: true })
             //     .then(() => {
             //         if (message.channel.type === 'dm') return;
             //         message.reply('I\'ve sent you a DM with all my commands!');
@@ -24,7 +27,7 @@ module.exports = {
             //         console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
             //         message.reply('it seems like I can\'t DM you! Do you have DMs disabled?');
             //     });
-            return message.channel.send(data, { split: true });
+            return message.reply(`${replyMessage}`)
         }
 
         // Send help data about the specific command
@@ -35,14 +38,14 @@ module.exports = {
             return message.reply('that\'s not a valid command!');
         }
 
-        data.push(`**Name:** ${command.name}`);
+        replyMessage += `**Name:** ${command.name}`;
 
-        if (command.aliases) data.push(`**Aliases:** ${command.aliases.join(', ')}`);
-        if (command.description) data.push(`**Description:** ${command.description}`);
-        if (command.usage) data.push(`**Usage:** ${prefix}${command.name} ${command.usage}`);
+        if (command.aliases) replyMessage += `\n**Aliases:** ${command.aliases.join(', ')}`;
+        if (command.description) replyMessage += `\n**Description:** ${command.description}`;
+        if (command.usage) replyMessage += `\n**Usage:** ${prefix}${command.name} ${command.usage}`;
 
-        if (command.cooldown) data.push(`**Cooldown:** ${command.cooldown || 3} second(s)`);
+        if (command.cooldown) replyMessage += `\n**Cooldown:** ${command.cooldown || 3} second(s)`;
 
-        return message.channel.send(data, { split: true });
+        return message.reply(`${replyMessage}`);
     }
 }

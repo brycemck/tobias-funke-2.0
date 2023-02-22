@@ -18,10 +18,10 @@ module.exports = {
 
             resp.on('end', () => {
                 response = JSON.parse(data);
-                return message.channel.send(response.slip.advice);
+                return message.reply(`${response.slip.advice}`);
             })
         }).on('error', (err) => {
-            return message.channel.send("There was an error when accessing the advice API.")
+            return message.reply(`There was an error when accessing the advice API.`)
         })
     }
 }

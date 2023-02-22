@@ -6,14 +6,13 @@ module.exports = {
     description: 'Shows connection information for our Minecraft server.',
     usage: '',
     execute(message, args) {
-        const data = [];
+        let messageReply = '';
 
-        data.push(`**Hostname:** ${mcServerIP}`);
-        data.push(`**Port:** N/A`);
-        data.push(`**Mod Pack:** http://mods.celerygaming.xyz`)
-        data.push(`\nA whitelist is enforced. If this is your first time connecting, make sure to tag @${discordAdminRole} and send your Minecraft username so that they can whitelist you.`);
-        data.push(`\nYou can check who's online with \`${prefix}mcstatus\`.`);
+        messageReply += `**Hostname:** ${mcServerIP}`;
+        messageReply += `\n**Mod and Connection info:** https://docs.google.com/document/d/1ezJyz8PI91PytmQFkD_DCyB3pS-YXTrWKMvP4vX6Fq8/edit`
+        messageReply += `\n\nA whitelist is enforced. If this is your first time connecting, make sure to tag @${discordAdminRole} and send your Minecraft username so that they can whitelist you.`;
+        messageReply += `\n\nYou can check who's online with \`${prefix}mcstatus\`.`;
 
-        message.channel.send(data, { split: true })
+        return message.reply(`${messageReply}`)
     }
 }

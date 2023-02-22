@@ -18,7 +18,8 @@
   },
   "homepage": "https://github.com/brycemck/tobias-funke-2.0#readme",
   "dependencies": {
-    "discord.js": "^12.5.3",
+    "discord.js": "^14.7.1",
+    "dotenv": "^16.0.3",
     "fs": "^0.0.1-security",
     "minecraft-server-util": "^5.2.9"
   }

@@ -27,6 +27,6 @@ module.exports = {
     description: 'Say hello to Tobias, he\'ll have something fun to say.',
     usage: '',
     execute(message, args) {
-        message.channel.send(quotes[Math.floor(Math.random() * (quotes.length))])
+        return message.reply(`${quotes[Math.floor(Math.random() * (quotes.length))]}`)
     }
 }
