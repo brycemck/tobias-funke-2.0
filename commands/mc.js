@@ -1,4 +1,8 @@
-const { prefix, discordAdminRole, mcServerIP } = require('../config.json');
+const dotenv = require('dotenv');
+dotenv.config();
+const prefix = process.env.BOT_PREFIX;
+const mcServerIP = process.env.MC_SERVER_IP;
+const discordAdminRole = process.env.DISCORD_ADMIN_ROLE;
 
 module.exports = {
     name: 'mc',
