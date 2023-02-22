@@ -13,7 +13,7 @@ module.exports = {
     execute(message, args) {
         let messageReply = '';
 
-        mcUtil.status(mcServerIP, mcQueryPort)
+        mcUtil.status(mcServerIP, parseInt(mcQueryPort))
             .then((result) => {
                 messageReply += `**Server:** ${mcServerIP}`;
                 messageReply += `\n**Online Players:** ${result.players.online}`;
