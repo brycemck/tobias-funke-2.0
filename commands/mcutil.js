@@ -27,7 +27,11 @@ module.exports = {
         const client = new mcUtil.RCON();
         
         (async () => {
-            await client.connect(mcServerIP, parseInt(mcRconPort));
+            try {
+                await client.connect(mcServerIP, parseInt(mcRconPort));
+            } catch(error) {
+                return message.reply(`could not connect to RCON: ${error}`)
+            }
             await client.login(mcRconPassword);
             
             const result = await client.execute(args.join(' '));
