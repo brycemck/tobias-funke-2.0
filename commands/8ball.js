@@ -12,7 +12,7 @@ module.exports = {
     name: '8ball',
     description: 'Get a response to a question you have for Tobias\' 8 ball.',
     usage: '[question]',
-    execute(message, args) {
-        return message.reply(`${responses[Math.floor(Math.random() * (responses.length))]}`)
+    run: async (client, channel, message, args) => {
+        return channel.send(`${responses[Math.floor(Math.random() * (responses.length))]}`)
     }
 }

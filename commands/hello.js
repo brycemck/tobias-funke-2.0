@@ -26,7 +26,7 @@ module.exports = {
     aliases: ['sup', 'wazzup'],
     description: 'Say hello to Tobias, he\'ll have something fun to say.',
     usage: '',
-    execute(message, args) {
-        return message.reply(`${quotes[Math.floor(Math.random() * (quotes.length))]}`)
+    run: async (client, channel, message, args) => {
+        return channel.send(`${quotes[Math.floor(Math.random() * (quotes.length))]}`)
     }
 }

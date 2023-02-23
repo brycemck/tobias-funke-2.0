@@ -9,7 +9,7 @@ module.exports = {
     aliases: ['minecraft'],
     description: 'Shows connection information for our Minecraft server.',
     usage: '',
-    execute(message, args) {
+    run: async (client, channel, message, args) => {
         let messageReply = '';
 
         messageReply += `**Hostname:** ${mcHostname}`;
@@ -17,6 +17,6 @@ module.exports = {
         messageReply += `\n\nA whitelist is enforced. If this is your first time connecting, make sure to tag @${discordAdminRole} and send your Minecraft username so that they can whitelist you.`;
         messageReply += `\n\nYou can check who's online with \`${prefix}mcstatus\`.`;
 
-        return message.reply(`${messageReply}`)
+        return channel.send(`${messageReply}`)
     }
 }

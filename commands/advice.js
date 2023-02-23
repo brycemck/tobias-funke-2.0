@@ -8,7 +8,7 @@ module.exports = {
     aliases: ['givemeadvice'],
     description: 'Random advice from an advice-giving API.',
     usage: '',
-    execute(message, args) {
+    run: async (client, channel, message, args) => {
         https.get(adviceUrl + endpoint, (resp) => {
             let data = '';
 
@@ -18,10 +18,10 @@ module.exports = {
 
             resp.on('end', () => {
                 response = JSON.parse(data);
-                return message.reply(`${response.slip.advice}`);
+                return channel.send(`${response.slip.advice}`);
             })
         }).on('error', (err) => {
-            return message.reply(`There was an error when accessing the advice API.`)
+            return channel.send(`There was an error when accessing the advice API.`)
         })
     }
 }

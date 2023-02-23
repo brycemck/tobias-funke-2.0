@@ -11,36 +11,36 @@ module.exports = {
     name: 'mcutil',
     description: 'Execute a Minecraft console command on the server. Only Tobias Admins can do this.',
     usage: `[minecraft console command]\n(ex: ${prefix}mcutil whitelist add [username])`,
-    execute(message, args) {
+    run: async (client, channel, message, args) => {
         let messageReply = '';
         // This command shouldn't be able to be executed by someone that doesn't have the specified admin role in the Discord server
         if (!message.member.roles.cache.some(role => role.name === discordAdminRole)) {
-            message.reply(`You must be a Tobias Admin to run this.`);
+            channel.send(`You must be a Tobias Admin to run this.`);
             return;
         }
 
         if(!args.length) {
-            message.reply(`This command needs an argument. Run \`${prefix}help mcutil\` for help.`);
+            channel.send(`This command needs an argument. Run \`${prefix}help mcutil\` for help.`);
             return;
         }
 
-        const client = new mcUtil.RCON();
+        const RCONClient = new mcUtil.RCON();
         
         (async () => {
             try {
-                await client.connect(mcServerIP, parseInt(mcRconPort));
+                await RCONClient.connect(mcServerIP, parseInt(mcRconPort));
             } catch(error) {
-                return message.reply(`${error}`)
+                return channel.send(`${error}`)
             }
-            await client.login(mcRconPassword);
+            await RCONClient.login(mcRconPassword);
             
-            const result = await client.execute(args.join(' '));
+            const result = await RCONClient.execute(args.join(' '));
 
             messageReply += '**Response:**';
             messageReply += '\n`' + result + '`';
 
-            await client.close();
-            return message.reply(`${messageReply}`);
+            await RCONClient.close();
+            return channel.send(`${messageReply}`);
         })();
     }
 }

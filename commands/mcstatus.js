@@ -11,7 +11,7 @@ module.exports = {
     aliases: ['status'],
     description: 'Queries the Minecraft server to see status and active players.',
     usage: '',
-    execute(message, args) {
+    run: async (client, channel, message, args) => {
         let messageReply = '';
 
         mcUtil.status(mcServerIP, parseInt(mcQueryPort))
@@ -23,11 +23,11 @@ module.exports = {
                 messageReply += `\n**Round Trip Latency:** ${result.roundTripLatency}`;
 
                 messageReply += `\n\nFor connection information, use \`${prefix}mc\`.`
-                return message.reply(`${messageReply}`)
+                return channel.send(`${messageReply}`)
             })
             .catch((error) => {
-                 console.log(error);
-                 message.channel.send('There was an error reaching the server.');
+                console.log(error);
+                return channel.send('There was an error reaching the server.');
             });
     }
 }

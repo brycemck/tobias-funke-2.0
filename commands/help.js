@@ -7,7 +7,7 @@ module.exports = {
     description: 'List all available commands, or info about a specific command.',
     aliases: ['commands'],
     usage: '[command name]',
-    execute(message, args) {
+    run: async (client, channel, message, args) => {
         let replyMessage = '';
         const { commands } = message.client;
         const commandsList = Array.from(commands.keys()).join(', ')
@@ -18,16 +18,7 @@ module.exports = {
             replyMessage += commandsList;
             replyMessage += `\n\nYou can send \`${prefix}help [command name]\` to get info on a specific command!`;
 
-            // return message.author.send(replyMessage, { split: true })
-            //     .then(() => {
-            //         if (message.channel.type === 'dm') return;
-            //         message.reply('I\'ve sent you a DM with all my commands!');
-            //     })
-            //     .catch(error => {
-            //         console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-            //         message.reply('it seems like I can\'t DM you! Do you have DMs disabled?');
-            //     });
-            return message.reply(`${replyMessage}`)
+            return channel.send(`${replyMessage}`)
         }
 
         // Send help data about the specific command
@@ -35,7 +26,7 @@ module.exports = {
         const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
 
         if (!command) {
-            return message.reply('that\'s not a valid command!');
+            return channel.send('that\'s not a valid command!');
         }
 
         replyMessage += `**Name:** ${command.name}`;
@@ -46,6 +37,6 @@ module.exports = {
 
         if (command.cooldown) replyMessage += `\n**Cooldown:** ${command.cooldown || 3} second(s)`;
 
-        return message.reply(`${replyMessage}`);
+        return channel.send(`${replyMessage}`);
     }
 }
